@@ -1,0 +1,144 @@
+<html>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600;700&display=swap')
+:root {
+  // palette
+  --black-400a: hsla(0, 0%, 0%, 0.4);
+  
+  --white-400: hsl(0, 0%, 100%);
+  
+  --content__text_clr: var(--white-400);
+  --content__text_bg-clr: var(--black-400a);
+  
+  // fonts
+  --primary-ff-fallback: monospace;
+  --primary-ff: 'Roboto-Mono', var(--primary-ff-fallback);
+
+  --fw-700: 700;
+  
+  --fs-800: 3.5rem;
+
+  // z-index
+  --zi-rev-400: -400;
+
+  font: {
+    size: clamp(0rem, 5vw, 1rem);
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box: {
+    sizing: border-box;
+  };
+}
+
+.page {
+  font: {
+    family: var(--primary-ff);
+  };
+  min: {
+    height: 100vh;
+  };
+  
+  &__backgrounds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--zi-rev-400);
+  }
+  
+  &__bg-box {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  &__bg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object: {
+      fit: cover;
+    };
+  }
+}
+
+.content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  place: {
+    items: center;
+  };
+  min: {
+    width: 100vw;
+    height: 100vh;
+  };
+  
+  &__text {
+    color: var(--content__text_clr);
+    padding: 0.6em 1.2em;
+    border: 10px solid var(--content__text_clr);
+    background: {
+      color: var(--content__text_bg-clr);
+    }
+    text: {
+      transform: uppercase;
+    };
+    font: {
+      weight: var(--fw-700);
+      size: var(--fs-800);
+    };
+  }
+}
+  </style>
+body.page
+  main
+    .page__backgrounds
+      .page__bg-box
+        img(src = 'https://images.pexels.com/photos/2693529/pexels-photo-2693529.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' alt = '').page__bg
+      .page__bg-box
+        img(src = 'https://images.pexels.com/photos/3283186/pexels-photo-3283186.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' alt = '').page__bg
+      .page__bg-box
+        img(src = 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' alt = '').page__bg
+    .content
+      p.content__text Hello!
+      
+      <script>
+        setInterval(() => {
+  getDifferentImgForEachElement();
+}, 30000);
+
+const allImgs = document.querySelectorAll(".page__bg");
+
+async function getData() {
+  const response = await fetch(
+    "https://random.imagecdn.app/v1/image?width=2000&height=1000&category=buildings&format=json"
+  );
+  const data = await response.json();
+
+  return data.url;
+}
+
+async function getDifferentImgForEachElement() {
+  const imgsArr = [];
+
+  for (let i = 0; i < allImgs.length; i++) {
+    imgsArr.push(await getData());
+  }
+
+  await setImg(imgsArr);
+}
+
+function setImg(imgs) {
+  imgs.forEach((img, index) => {
+    allImgs[index].src = img;
+  });
+}
+
+        </script>
+        </html>
